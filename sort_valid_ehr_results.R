@@ -1,4 +1,4 @@
-install.packages("tidyverse")
+install.packages('tidyverse', dependencies=TRUE, type="source")
 
 library(tidyverse)
 
