@@ -22,6 +22,8 @@ necessary_columns <- c(
   "unit"
 )
 
+# All conversion ratios are set relative to g/dL.
+# All units should be converted to lowercase before checking.
 mass_conversions <- list(
   "g"     = 1,
   "gm"    = 1,
@@ -30,7 +32,6 @@ mass_conversions <- list(
   "mg"         = 0.001,
   "milligram"  = 0.001,
   "milligrams" = 0.001)
-
 vol_conversions <- list(
   "dl"         = 1,
   "deciliter"  = 1,
