@@ -24,6 +24,9 @@ necessary_columns <- c(
 
 # All conversion ratios are set relative to g/dL.
 # All units should be converted to lowercase before checking.
+# This is expandable and can be updated to include whatever other
+# units you want to add (though you may be heavily judged for using
+# something other than the metric system.
 mass_conversions <- list(
   "g"     = 1,
   "gm"    = 1,
