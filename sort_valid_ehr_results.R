@@ -48,7 +48,8 @@ allowed_vol_units <- names(vol_conversions)
 # FUNCTIONS
 # --------------------------
 
-# Returns TRUE/FALSE based on if the units make sense and are usable
+# Returns TRUE/FALSE based on if the units make sense and are usable,
+# meaning it consists of a weight unit, a forward slash, and a volume unit.
 is_valid_unit <- function(units) {
   valid_units <- c()
   
