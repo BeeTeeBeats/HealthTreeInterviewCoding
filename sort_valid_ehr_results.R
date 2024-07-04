@@ -117,28 +117,15 @@ m_protein_data$error_flag <- m_protein_data$error_flag | (!is_valid_unit(m_prote
 m_protein_data <- m_protein_data |>
   mutate(value_g_dL = value * get_conversion_factor(unit), .before = error_flag)
 
-# We want to flag absurdly high data. Ideally we would use an existing database
-# of m-protein test results, but I am unable to find one. As such, we have to
-# just reason our way through it:
-
-# As we want to try to save the actual myeloma diagnoses while rejecting data
-# that is too high to be accurate, we can look at the data between 3 g/dL
-# (the cutoff for multiple myeloma) and below 100 g/dL (the approximate total
-# weight of blood). Anything below 3 g/dL is almost sure to be accurate, and
-# anything above 100 g/dL is guarangeed to be inaccurate (maybe they said grams
-# but meant milligrams).
+# Filter the data for values between 3 g/dL (the cutoff for a M.M. diagnosis)
+# and 100 g/dL (the approximate weight of the blood the protein is in)
 g_dl_data <- m_protein_data |>
   filter(!error_flag) |>
   mutate(unit = str_to_lower(unit)) |>
   filter(unit %in% c("g/dl", "gm/dl", "grams/deciliter")) |>
   filter(value >= 3, value < 100)
 
-# Within that 3-100 range, we can set the cutoff at the 90th percentile to get
-# a cutoff of 24 g/dL, which makes some intuitive sense as it is 3-4x the normal
-# total contentration of all protein in the plasma (6-8 g/dL). 100, being the
-# total combined weight of blood, is far too high, and the maximum possible
-# m-protein reading is likely to be much closer to 3, so I used the 90th
-# percentile instead of the 95th to err on the side of accuracy.
+# Within that 3-100 range, we can set the cutoff at the 90th percentile
 cutoff <- quantile(g_dl_data$value, 0.90)
 
 # Flag the data above the cutoff that we set
